@@ -10,13 +10,23 @@ class RecordRepository {
   Box<Map> get _expenseBox => Hive.box<Map>(AppBoxes.expense);
   Box<Map> get _shippingCompanyBox => Hive.box<Map>(AppBoxes.shippingCompanies);
   Box<Map> get _expenseCategoryBox => Hive.box<Map>(AppBoxes.expenseCategories);
+  Box<Map> get _waybillBox => Hive.box<Map>(AppBoxes.waybills);
+  ValueListenable<Box<Map>> waybillListenable() => _waybillBox.listenable();
 
-  ValueListenable<Box<Map>> incomeListenable() => _incomeBox.listenable();
-  ValueListenable<Box<Map>> expenseListenable() => _expenseBox.listenable();
-  ValueListenable<Box<Map>> shippingCompanyListenable() =>
-      _shippingCompanyBox.listenable();
-  ValueListenable<Box<Map>> expenseCategoryListenable() =>
-      _expenseCategoryBox.listenable();
+  Future<void> addWaybill(WaybillRecord record) async {
+    await _waybillBox.put(record.id, record.toMap());
+  }
+
+  WaybillRecord? getWaybill(String id) {
+    final map = _waybillBox.get(id);
+    return map != null ? WaybillRecord.fromMap(map) : null;
+  }
+
+  List<WaybillRecord> getWaybills() {
+    return _waybillBox.values.map(WaybillRecord.fromMap).toList()
+      ..sort(
+          (a, b) => b.createdAt.compareTo(a.createdAt)); // Sort by newest first
+  }
 
   Future<void> addIncome(IncomeRecord record) async {
     await _incomeBox.put(record.id, record.toMap());

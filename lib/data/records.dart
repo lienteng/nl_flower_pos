@@ -189,3 +189,43 @@ class ShippingCompany {
     ];
   }
 }
+
+class WaybillRecord {
+  WaybillRecord({
+    required this.id,
+    required this.createdAt,
+    required this.customerName,
+    required this.customerPhone,
+    required this.shippingCompany,
+    required this.branch,
+    required this.cod,
+  });
+
+  final String id;
+  final DateTime createdAt;
+  final String customerName;
+  final String customerPhone;
+  final String shippingCompany;
+  final String branch;
+  final double cod;
+
+  Map<String, dynamic> toMap() => {
+        'id': id,
+        'createdAt': createdAt.toIso8601String(),
+        'customerName': customerName,
+        'customerPhone': customerPhone,
+        'shippingCompany': shippingCompany,
+        'branch': branch,
+        'cod': cod,
+      };
+
+  static WaybillRecord fromMap(Map map) => WaybillRecord(
+        id: map['id'] as String,
+        createdAt: DateTime.parse(map['createdAt'] as String),
+        customerName: map['customerName'] as String,
+        customerPhone: map['customerPhone'] as String,
+        shippingCompany: map['shippingCompany'] as String,
+        branch: map['branch'] as String,
+        cod: (map['cod'] as num).toDouble(),
+      );
+}

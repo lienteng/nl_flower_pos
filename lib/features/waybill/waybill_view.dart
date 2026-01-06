@@ -2,8 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:ln_flower/data/record_repository.dart';
+import 'package:ln_flower/data/records.dart';
+import 'package:ln_flower/features/waybill/waybill_history_view.dart';
 import 'package:ln_flower/printing/sunmi_receipt_printer.dart';
 import 'package:ln_flower/widgets/custom_dialog.dart';
+import 'package:uuid/uuid.dart';
 
 class WaybillView extends StatefulWidget {
   const WaybillView({super.key});
@@ -20,7 +23,6 @@ class _WaybillViewState extends State<WaybillView> {
   final feeController = TextEditingController();
   final _branchController = TextEditingController();
   String _shippingCompany = '';
-  String _shippingBranch = '';
 
   // Number formatter for thousand separators
   final _numberFormatter = NumberFormat('#,###');
@@ -247,6 +249,26 @@ class _WaybillViewState extends State<WaybillView> {
           ),
         ),
         centerTitle: true,
+        actions: [
+          Container(
+            decoration: BoxDecoration(
+                // color: Colors.blue,
+                borderRadius: BorderRadius.all(Radius.circular(100))),
+            child: IconButton(
+              onPressed: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => const WaybillHistoryView(),
+                  ),
+                );
+              },
+              icon: const Icon(
+                Icons.history,
+                color: Colors.blue,
+              ),
+            ),
+          )
+        ],
       ),
       body: SafeArea(
         child: SingleChildScrollView(
@@ -299,7 +321,6 @@ class _WaybillViewState extends State<WaybillView> {
                     onChanged: (value) {
                       setState(() {
                         _shippingCompany = value!;
-                        _shippingBranch = '';
                       });
                     },
                   );
@@ -393,6 +414,18 @@ class _WaybillViewState extends State<WaybillView> {
             expressBranch: branchName,
             feeController: formattedFee),
       );
+
+      // Save to Hive after successful printing
+      final waybillRecord = WaybillRecord(
+        id: const Uuid().v4(),
+        createdAt: DateTime.now(),
+        customerName: customerName,
+        customerPhone: customerPhone,
+        shippingCompany: actualShippingCompany,
+        branch: branchName,
+        cod: feeValue,
+      );
+      await _repo.addWaybill(waybillRecord);
 
       if (!mounted) return;
       await CustomDialog.show(
