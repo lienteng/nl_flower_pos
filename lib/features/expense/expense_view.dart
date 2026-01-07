@@ -150,51 +150,18 @@ class _ExpenseViewState extends State<ExpenseView> {
             TextField(
               controller: _amountController,
               keyboardType: TextInputType.number,
-              inputFormatters: [
-                FilteringTextInputFormatter.digitsOnly,
-                TextInputFormatter.withFunction((oldValue, newValue) {
-                  if (newValue.text.isEmpty) return newValue;
-                  final number =
-                      int.tryParse(newValue.text.replaceAll(',', ''));
-                  if (number == null) return oldValue;
-                  final formatted = NumberFormat.currency(
-                    locale: 'lo_LA',
-                    symbol: '',
-                    decimalDigits: 0,
-                  ).format(number);
-                  return newValue.copyWith(
-                    text: formatted,
-                    selection:
-                        TextSelection.collapsed(offset: formatted.length),
-                  );
-                }),
-              ],
               style: theme.textTheme.bodyLarge?.copyWith(
                 fontWeight: FontWeight.w500,
               ),
               decoration: InputDecoration(
-                prefixIcon: Container(
-                  margin: const EdgeInsets.only(right: 12),
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 12, vertical: 14),
-                  decoration: BoxDecoration(
-                    color: theme.colorScheme.primary.withOpacity(0.1),
-                    borderRadius: const BorderRadius.only(
-                      topLeft: Radius.circular(8),
-                      bottomLeft: Radius.circular(8),
-                    ),
-                  ),
-                  child: Text(
-                    '₭',
-                    style: theme.textTheme.titleMedium?.copyWith(
-                      color: theme.colorScheme.primary,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
+                prefixText: '₭ ',
+                prefixStyle: theme.textTheme.bodyLarge?.copyWith(
+                  fontWeight: FontWeight.w600,
+                  color: Colors.green,
                 ),
                 hintText: '0',
-                filled: true,
-                fillColor: theme.colorScheme.surface,
+                contentPadding:
+                    const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(12),
                   borderSide: BorderSide(
@@ -210,10 +177,75 @@ class _ExpenseViewState extends State<ExpenseView> {
                   borderSide:
                       BorderSide(color: theme.colorScheme.primary, width: 2),
                 ),
-                contentPadding:
-                    const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
               ),
             ),
+            // TextField(
+            //   controller: _amountController,
+            //   keyboardType: TextInputType.number,
+            //   inputFormatters: [
+            //     FilteringTextInputFormatter.digitsOnly,
+            //     TextInputFormatter.withFunction((oldValue, newValue) {
+            //       if (newValue.text.isEmpty) return newValue;
+            //       final number =
+            //           int.tryParse(newValue.text.replaceAll(',', ''));
+            //       if (number == null) return oldValue;
+            //       final formatted = NumberFormat.currency(
+            //         locale: 'lo_LA',
+            //         symbol: '',
+            //         decimalDigits: 0,
+            //       ).format(number);
+            //       return newValue.copyWith(
+            //         text: formatted,
+            //         selection:
+            //             TextSelection.collapsed(offset: formatted.length),
+            //       );
+            //     }),
+            //   ],
+            //   style: theme.textTheme.bodyLarge?.copyWith(
+            //     fontWeight: FontWeight.w500,
+            //   ),
+            //   decoration: InputDecoration(
+            //     prefixIcon: Container(
+            //       margin: const EdgeInsets.only(right: 12),
+            //       padding:
+            //           const EdgeInsets.symmetric(horizontal: 12, vertical: 14),
+            //       decoration: BoxDecoration(
+            //         color: theme.colorScheme.primary.withOpacity(0.1),
+            //         borderRadius: const BorderRadius.only(
+            //           topLeft: Radius.circular(8),
+            //           bottomLeft: Radius.circular(8),
+            //         ),
+            //       ),
+            //       child: Text(
+            //         '₭',
+            //         style: theme.textTheme.titleMedium?.copyWith(
+            //           color: theme.colorScheme.primary,
+            //           fontWeight: FontWeight.w600,
+            //         ),
+            //       ),
+            //     ),
+            //     hintText: '0',
+            //     filled: true,
+            //     fillColor: theme.colorScheme.surface,
+            //     border: OutlineInputBorder(
+            //       borderRadius: BorderRadius.circular(12),
+            //       borderSide: BorderSide(
+            //           color: theme.colorScheme.outline.withOpacity(0.3)),
+            //     ),
+            //     enabledBorder: OutlineInputBorder(
+            //       borderRadius: BorderRadius.circular(12),
+            //       borderSide: BorderSide(
+            //           color: theme.colorScheme.outline.withOpacity(0.3)),
+            //     ),
+            //     focusedBorder: OutlineInputBorder(
+            //       borderRadius: BorderRadius.circular(12),
+            //       borderSide:
+            //           BorderSide(color: theme.colorScheme.primary, width: 2),
+            //     ),
+            //     contentPadding:
+            //         const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+            //   ),
+            // ),
             const SizedBox(height: 20),
 
             // Category Field

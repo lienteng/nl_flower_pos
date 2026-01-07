@@ -172,26 +172,6 @@ class _IncomeViewState extends State<IncomeView> {
                       enabledBorder: InputBorder.none,
                       focusedBorder: InputBorder.none,
                     ),
-                    onChanged: (value) {
-                      // Format with thousand separators
-                      if (value.isNotEmpty) {
-                        final cleanValue = value.replaceAll(',', '');
-                        final parsed = double.tryParse(cleanValue);
-                        if (parsed != null) {
-                          final formatted = currency
-                              .format(parsed)
-                              .replaceAll('₭', '')
-                              .trim();
-                          if (formatted != value) {
-                            _amountController.value = TextEditingValue(
-                              text: formatted,
-                              selection: TextSelection.collapsed(
-                                  offset: formatted.length),
-                            );
-                          }
-                        }
-                      }
-                    },
                   ),
                 ),
 

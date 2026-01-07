@@ -146,7 +146,7 @@ class SunmiReceiptPrinter {
       await SunmiPrinter.lineWrap(2);
 
       await SunmiPrinter.printText(
-        '',
+        '.',
         style: SunmiTextStyle(
           align: SunmiPrintAlign.CENTER,
           fontSize: 16, // Smaller font size
@@ -161,7 +161,7 @@ class SunmiReceiptPrinter {
           ));
 
       await SunmiPrinter.printText(
-        '',
+        '.',
         style: SunmiTextStyle(
           align: SunmiPrintAlign.CENTER,
           fontSize: 16, // Smaller font size
@@ -171,19 +171,21 @@ class SunmiReceiptPrinter {
       await SunmiPrinter.lineWrap(3);
       await SunmiPrinter.line();
       await SunmiPrinter.printText(
-        'Thank You',
+        'ຂໍຂອບໃຈ',
         style: SunmiTextStyle(
           bold: true,
           align: SunmiPrintAlign.CENTER,
-          fontSize: 18, // Smaller font size
+          fontSize: 16,
         ),
       );
 
+      await SunmiPrinter.lineWrap(1);
+
       await SunmiPrinter.printText(
-        '',
+        'LN Flower POS',
         style: SunmiTextStyle(
           align: SunmiPrintAlign.CENTER,
-          fontSize: 16, // Smaller font size
+          fontSize: 14,
         ),
       );
 
